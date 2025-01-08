@@ -8,6 +8,7 @@ import EmptyAddLarge from '/src/assets/EmptyAddLarge.png';
 import EmptyAddSmall from '/src/assets/EmptyAddSmall.png';
 import AddLarge from '/src/assets/AddLarge.png';
 import AddSmall from '/src/assets/AddSmall.png';
+import { Link } from "react-router-dom";
 
 const Form = styled.form`
   display: flex;
@@ -204,13 +205,11 @@ export default function Home() {
   }, [tenantId]);
   
   
-
-  // Input change handler
   const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setTodo(e.target.value);
   };
 
-  // Handle form submission
+  
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const trimmedTodo = todo.trim(); 
@@ -233,7 +232,7 @@ export default function Home() {
           { id: Date.now(), text: trimmedTodo, completed: false },
         ]);
         
-        setTodo(""); // Clear input
+        setTodo(""); 
       } catch (error) {
         console.error(error);
         alert("할 일 추가 실패");
@@ -243,14 +242,41 @@ export default function Home() {
     }
   };
 
-  // Toggle todo completion locally
-  const toggleTodo = (id: number) => {
-    setTodos((prevTodos) =>
-      prevTodos.map((item) =>
-        item.id === id ? { ...item, completed: !item.completed } : item
-      )
-    );
+  const toggleTodo = async (id: number) => {
+    try {
+      // 먼저 로컬에서 상태를 업데이트
+      setTodos((prevTodos) =>
+        prevTodos.map((item) =>
+          item.id === id ? { ...item, completed: !item.completed } : item
+        )
+      );
+  
+      // API로 PATCH 요청 보내기
+      const todoToUpdate = todos.find((item) => item.id === id);
+      if (todoToUpdate) {
+        const response = await fetch(
+          `https://assignment-todolist-api.vercel.app/api/${tenantId}/items/${id}`,
+          {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              isCompleted: !todoToUpdate.completed, // 완료 상태를 반대로 변경
+            }),
+          }
+        );
+  
+        if (!response.ok) {
+          throw new Error("할 일 상태 변경 실패");
+        }
+      }
+    } catch (error) {
+      console.error(error);
+      alert("할 일 상태 변경 실패");
+    }
   };
+  
 
   return (
     <div>
@@ -281,7 +307,9 @@ export default function Home() {
                       alt="To do"
                       onClick={() => toggleTodo(item.id)}
                     />
-                    {item.text}
+                    <Link to={`/items/${item.id}`} style={{ textDecoration: 'none', color: 'black' }}>
+                      {item.text}
+                    </Link>
                   </div>
                 </TodoItem>
               ))
@@ -303,7 +331,9 @@ export default function Home() {
                       alt="Done"
                       onClick={() => toggleTodo(item.id)}
                     />
-                    {item.text}
+                    <Link to={`/items/${item.id}`} style={{ textDecoration: 'none', color: 'black' }}>
+                      {item.text}
+                    </Link>
                   </div>
                 </DoneItem>
               ))
