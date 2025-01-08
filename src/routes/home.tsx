@@ -36,18 +36,18 @@ const TextArea = styled.textarea`
     outline: none;
     border-color: #6500C3;
   }
-  @media (min-width: 768px) and (max-width: 2024px) {
+  @media (min-width: 744px) and (max-width: 2024px) {
     width: 1016px;
     font-size: 14px;
     padding: 10px;
   }
-  @media (min-width: 376px) and (max-width: 768px) {
+  @media (min-width: 376px) and (max-width: 743px) {
     width: 578px;
     font-size: 14px;
     padding: 10px;
   }
   @media (max-width: 375px) {
-    width: 250px;
+    width: 280px;
     font-size: 24px;
     padding: 10px;
     text-align: center;
@@ -62,7 +62,7 @@ const SubmitBtn = styled.button<{ isEmpty: boolean }>`
   width: 168px;
   height: 50px;
   cursor: pointer;
-  @media (max-width: 768px) {
+  @media (max-width: 743px) {
     background: url(${(props) =>
       props.isEmpty ? EmptyAddSmall : AddSmall}) no-repeat center;
     width: 50px;
@@ -87,13 +87,12 @@ const TodoList = styled.ul`
   flex-direction: column;
   align-items: flex-start;
   width: 100%;
-  max-width: 580px;
-  min-width: 300px;
 `;
 
 const TodoItem = styled.li`
   margin-top: 20px;
-  width: 550px;
+  width: 100%; 
+  max-width: 696px;
   background-color: #F1F5F9;
   border: 1px solid black;
   padding: 10px;
@@ -119,13 +118,15 @@ const ListsContainer = styled.div`
   width: 100%;
   justify-content: space-around;
   align-items: flex-start;
-  @media (min-width: 400px) and (max-width: 768px) {
+  @media (min-width: 376px) and (max-width: 768px) {
     flex-direction: column;
+    width: 696px;
     align-items: center;
   }
-  @media (max-width: 399px) {
+  @media (max-width: 375px) {
     flex-direction: column;
     align-items: center;
+    width: 344px;
   }
 `;
 
@@ -145,13 +146,12 @@ const DoneTodoList = styled.div`
   flex-direction: column;
   align-items: flex-start;
   width: 100%; 
-  max-width: 580px;
-  min-width: 300px;
 `;
 
 const DoneItem = styled.li`
   margin-top: 20px;
-  width: 550px;
+  width: 100%; 
+  max-width: 696px;
   background-color: #F1F5F9;
   border: 1px solid black;
   padding: 10px;
@@ -164,8 +164,8 @@ const DoneItem = styled.li`
 `;
 
 const EmptyImage = styled.img`
-  width: 200px;
-  height: auto;
+  width: 240px;
+  height: 240px;
   margin-top: 20px;
   margin-left:100px;
 `;
@@ -295,7 +295,20 @@ export default function Home() {
         <TodoList>
           <Todo>To do</Todo>
           {todos.filter((item) => !item.completed).length === 0 ? (
+            <>
             <EmptyImage src={todoEmpty} alt="할일 없음" />
+            <p style={{
+                 textAlign: "center",
+                 marginTop: "10px",
+                 marginLeft: "100px",
+                 justifyContent: "center",
+                 fontSize: "16px",
+                 color: "#6B7280",
+                 letterSpacing: "0.5px"
+              }}>
+                할 일이 없어요. <br/> TODO를 새롭게 추가해주세요!
+              </p>
+            </>
           ) : (
             todos
               .filter((item) => !item.completed)
@@ -319,7 +332,20 @@ export default function Home() {
         <DoneTodoList>
           <Done>Done</Done>
           {todos.filter((item) => item.completed).length === 0 ? (
+            <>
             <EmptyImage src={doneEmpty} alt="할일 없음" />
+              <p style={{
+                textAlign: "center",
+                marginTop: "10px",
+                marginLeft: "150px",
+                justifyContent: "center",
+                fontSize: "16px",
+                color: "#6B7280",
+                letterSpacing: "0.5px"
+              }}>
+                아직 다 한 일이 없어요. <br/> 해야할 일을 체크해보세요!
+              </p>
+          </>
           ) : (
             todos
               .filter((item) => item.completed)

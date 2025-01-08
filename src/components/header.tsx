@@ -42,10 +42,10 @@ const ContentWrapper = styled.div`
 `;
 
 export default function Layout() {
-  const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth > 768); // 화면 크기가 768px 이상일 때 Large 로고 표시
+  const [isLargeScreen, setIsLargeScreen] = useState(window.innerWidth > 743); 
 
   const handleResize = () => {
-    setIsLargeScreen(window.innerWidth > 768);
+    setIsLargeScreen(window.innerWidth > 743);
   };
 
   useEffect(() => {
@@ -63,7 +63,7 @@ export default function Layout() {
             <LogoImage
               src={isLargeScreen ? LargeLogo : logo}
               alt="로고"
-              isLargeScreen={isLargeScreen}  // isLargeScreen을 props로 전달
+              isLargeScreen={isLargeScreen}
             />
           </Link>
         </Title>
