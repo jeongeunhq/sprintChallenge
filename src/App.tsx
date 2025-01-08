@@ -15,7 +15,7 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "item", // "item" 경로에 Item 컴포넌트를 렌더링
+        path: "/items/:tenantId/:itemId", // "item" 경로에 Item 컴포넌트를 렌더링
         element: <Item />,
       },
     ],

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import todoIcon from '/src/assets/todo.png';  
 import doneIcon from '/src/assets/done.png';  
@@ -8,7 +8,6 @@ import EmptyAddLarge from '/src/assets/EmptyAddLarge.png';
 import EmptyAddSmall from '/src/assets/EmptyAddSmall.png';
 import AddLarge from '/src/assets/AddLarge.png';
 import AddSmall from '/src/assets/AddSmall.png';
-
 
 const Form = styled.form`
   display: flex;
@@ -85,9 +84,9 @@ const TodoList = styled.ul`
   list-style-type: none;
   display: flex;
   flex-direction: column;
-  align-items: flex-start; /* 왼쪽 정렬 */
-  width: 100%; /* 너비를 100%로 설정하여 화면을 꽉 채움 */
-  max-width: 580px; /* 최대 너비 제한 */
+  align-items: flex-start;
+  width: 100%;
+  max-width: 580px;
   min-width: 300px;
 `;
 
@@ -118,17 +117,16 @@ const ListsContainer = styled.div`
   margin-top: 30px;
   width: 100%;
   justify-content: space-around;
-  align-items: flex-start; /* 상단 정렬 */
+  align-items: flex-start;
   @media (min-width: 400px) and (max-width: 768px) {
     flex-direction: column;
-    align-items: center; /* 세로 방향일 때만 가운데 정렬 */
+    align-items: center;
   }
   @media (max-width: 399px) {
     flex-direction: column;
     align-items: center;
   }
 `;
-
 
 const Done = styled.div`
   background-color: #15803D;
@@ -172,40 +170,70 @@ const EmptyImage = styled.img`
 `;
 
 export default function Home() {
+  const [tenantId, setTenantId] = useState<string>("eunha");
   const [todo, setTodo] = useState<string>(""); 
   const [todos, setTodos] = useState<{ id: number; text: string; completed: boolean }[]>([]); 
 
-  // 입력 값 변경 시 호출되는 함수
+  useEffect(() => {
+    const fetchTodos = async () => {
+      try {
+        const response = await fetch(`https://assignment-todolist-api.vercel.app/api/${tenantId}/items`);
+        if (response.ok) {
+          const data = await response.json();
+          console.log("Fetched data:", data);  // 응답 데이터를 확인
+  
+          if (Array.isArray(data)) {  // 응답 데이터가 배열 형식이라면
+            const fetchedTodos = data.map((item: { id: number; name: string; isCompleted: boolean }) => ({
+              id: item.id,
+              text: item.name,  // 'name'을 'text'로 매핑
+              completed: item.isCompleted,  // 'isCompleted'를 'completed'로 매핑
+            }));
+            setTodos(fetchedTodos);  // 상태 업데이트
+          } else {
+            console.error("No valid items in the response");
+          }
+        } else {
+          console.error("Failed to fetch todos");
+        }
+      } catch (error) {
+        console.error("Error fetching todos:", error);
+      }
+    };
+  
+    fetchTodos();
+  }, [tenantId]);
+  
+  
+
+  // Input change handler
   const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setTodo(e.target.value);
   };
 
-  // 폼 제출 시 호출되는 함수
+  // Handle form submission
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const trimmedTodo = todo.trim(); 
     if (trimmedTodo) {
-      // 할 일을 tenantId로 사용하여 API 호출
       try {
-        const response = await fetch(`https://assignment-todolist-api.vercel.app/api/${trimmedTodo}/items`, {
+        const response = await fetch(`https://assignment-todolist-api.vercel.app/api/${tenantId}/items`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ name: trimmedTodo }),  // 할 일이 이름으로 들어감
+          body: JSON.stringify({ name: trimmedTodo }),
         });
 
         if (!response.ok) {
           throw new Error("할 일 추가 실패");
         }
 
-        // 요청이 성공하면 todos 상태 업데이트
         setTodos((prevTodos) => [
           ...prevTodos,
           { id: Date.now(), text: trimmedTodo, completed: false },
         ]);
         
-        setTodo(""); // 입력창 초기화
+        setTodo(""); // Clear input
       } catch (error) {
         console.error(error);
         alert("할 일 추가 실패");
@@ -215,7 +243,7 @@ export default function Home() {
     }
   };
 
-  // 할 일 체크 함수 (완료/미완료에 따라 리스트 이동)
+  // Toggle todo completion locally
   const toggleTodo = (id: number) => {
     setTodos((prevTodos) =>
       prevTodos.map((item) =>
@@ -241,12 +269,7 @@ export default function Home() {
         <TodoList>
           <Todo>To do</Todo>
           {todos.filter((item) => !item.completed).length === 0 ? (
-             <>
-             <EmptyImage src={todoEmpty} alt="할일 없음" />
-             <p style={{ textAlign: "center", marginTop: "10px",marginLeft:"100px", fontSize: "16px", color: "#94A3B8"}}>
-               할 일이 없어요. <br/> ToDo를 새롭게 추가해주세요!
-             </p>
-           </>
+            <EmptyImage src={todoEmpty} alt="할일 없음" />
           ) : (
             todos
               .filter((item) => !item.completed)
@@ -268,12 +291,7 @@ export default function Home() {
         <DoneTodoList>
           <Done>Done</Done>
           {todos.filter((item) => item.completed).length === 0 ? (
-            <>
             <EmptyImage src={doneEmpty} alt="할일 없음" />
-            <p style={{ textAlign: "center", marginTop: "15px",marginLeft:"100px", fontSize: "16px", color: "#94A3B8"}}>
-              아직 다 한 일이 없어요. <br/> 해야할 일을 체크해보세요!
-             </p>
-             </>
           ) : (
             todos
               .filter((item) => item.completed)
