@@ -23,7 +23,6 @@ export default function Item() {
   const [memoText, setMemoText] = useState<string>('');
   const [isEditingName, setIsEditingName] = useState<boolean>(false);
   const [newTodoName, setNewTodoName] = useState<string>('');
-  const [isEditingDone, setIsEditingDone] = useState<boolean>(false); 
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -113,7 +112,6 @@ export default function Item() {
   const handleMemoBlur = async () => {
     setIsEditingMemo(false);
     await updateMemo();
-    setIsEditingDone(true);
   };
 
   const handleMemoKeyDown = async (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -121,7 +119,6 @@ export default function Item() {
       event.preventDefault();
       setIsEditingMemo(false);
       await updateMemo();
-      setIsEditingDone(true); 
     }
   };
 
@@ -158,7 +155,6 @@ export default function Item() {
   const handleNameBlur = async () => {
     setIsEditingName(false);
     await updateTodoName();
-    setIsEditingDone(true);
   };
 
   const updateTodoName = async () => {

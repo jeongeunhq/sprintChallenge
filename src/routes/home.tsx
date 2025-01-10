@@ -12,33 +12,33 @@ import {
 } from "../components/homeComponent";
 
 export default function Home() {
-  const [tenantId, setTenantId] = useState<string>("eunha");
+  const [tenantId, setTenantId] = useState<string>("eunha");  //tenantId 저장
   const [todo, setTodo] = useState<string>(""); 
   const [todos, setTodos] = useState<{ id: number; text: string; completed: boolean }[]>([]); 
 
   useEffect(() => {
     const fetchTodos = async () => {
+      setTenantId("eunha");
       try {
         const response = await fetch(`https://assignment-todolist-api.vercel.app/api/${tenantId}/items`);
         if (response.ok) {
           const data = await response.json();
-          console.log("Fetched data:", data);  // 응답 데이터를 확인
   
-          if (Array.isArray(data)) {  // 응답 데이터가 배열 형식이라면
+          if (Array.isArray(data)) {  
             const fetchedTodos = data.map((item: { id: number; name: string; isCompleted: boolean }) => ({
               id: item.id,
-              text: item.name,  // 'name'을 'text'로 매핑
-              completed: item.isCompleted,  // 'isCompleted'를 'completed'로 매핑
+              text: item.name,  
+              completed: item.isCompleted,  
             }));
-            setTodos(fetchedTodos);  // 상태 업데이트
+            setTodos(fetchedTodos);  
           } else {
-            console.error("No valid items in the response");
+            console.error("todo 목록 에러");
           }
         } else {
-          console.error("Failed to fetch todos");
+          console.error("todo 목록 에러");
         }
       } catch (error) {
-        console.error("Error fetching todos:", error);
+        console.error("todo 목록 에러", error);
       }
     };
   
@@ -92,7 +92,7 @@ export default function Home() {
         )
       );
   
-      // API로 PATCH 요청 보내기
+      // 투두 완료 여부 업데이트
       const todoToUpdate = todos.find((item) => item.id === id);
       if (todoToUpdate) {
         const response = await fetch(
@@ -178,7 +178,7 @@ export default function Home() {
               <p style={{
                 textAlign: "center",
                 marginTop: "10px",
-                marginLeft: "150px",
+                marginLeft: "130px",
                 justifyContent: "center",
                 fontSize: "16px",
                 color: "#6B7280",

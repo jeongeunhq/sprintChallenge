@@ -31,12 +31,12 @@ export const TextArea = styled.textarea`
     outline: none;
     border-color: #6500C3;
   }
-  @media (min-width: 744px) and (max-width: 2024px) {
+  @media (min-width: 745px) and (max-width: 2024px) {
     width: 1016px;
     font-size: 14px;
     padding: 10px;
   }
-  @media (min-width: 376px) and (max-width: 743px) {
+  @media (min-width: 376px) and (max-width: 744px) {
     width: 578px;
     font-size: 14px;
     padding: 10px;
@@ -113,12 +113,12 @@ export const ListsContainer = styled.div`
   width: 100%;
   justify-content: space-around;
   align-items: flex-start;
-  @media (min-width: 376px) and (max-width: 768px) {
+  @media (min-width: 375px) and (max-width: 744px) {
     flex-direction: column;
     width: 696px;
     align-items: center;
   }
-  @media (max-width: 375px) {
+  @media (max-width: 374px) {
     flex-direction: column;
     align-items: center;
     width: 344px;
