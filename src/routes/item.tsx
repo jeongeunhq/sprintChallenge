@@ -1,3 +1,5 @@
+//할 일일 목록 상세 페이지
+
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from "react-router-dom";
 import todoIcon from '/src/assets/todo.png';  
@@ -17,14 +19,15 @@ import {
 } from "../components/itemComponent";
 
 export default function Item() {
-  const { id } = useParams();
-  const [todo, setTodo] = useState<any>(null);
-  const [isEditingMemo, setIsEditingMemo] = useState<boolean>(false);
-  const [memoText, setMemoText] = useState<string>('');
-  const [isEditingName, setIsEditingName] = useState<boolean>(false);
-  const [newTodoName, setNewTodoName] = useState<string>('');
-  const navigate = useNavigate();
+  const { id } = useParams(); // useParams 훅을 사용하여 URL에서 id 추출
+  const [todo, setTodo] = useState<any>(null); // 할 일 객체 저장
+  const [isEditingMemo, setIsEditingMemo] = useState<boolean>(false); // 메모 편집 상태
+  const [memoText, setMemoText] = useState<string>(''); // 메모 내용
+  const [isEditingName, setIsEditingName] = useState<boolean>(false); // 이름 편집 상태
+  const [newTodoName, setNewTodoName] = useState<string>(''); // 새 할 일 이름
+  const navigate = useNavigate(); //페이지 이동 
 
+// 컴포넌트가 마운트될 때 할 일 데이터 가져오기
   useEffect(() => {
     const fetchTodo = async () => {
       if (id) {
@@ -32,9 +35,9 @@ export default function Item() {
           const response = await fetch(`https://assignment-todolist-api.vercel.app/api/eunha/items/${id}`);
           if (response.ok) {
             const data = await response.json();
-            setTodo(data);  
-            setMemoText(data.memo || '');
-            setNewTodoName(data.name || '');
+            setTodo(data);  //할 일 데이터 설정
+            setMemoText(data.memo || ''); //메모 내용 초기화
+            setNewTodoName(data.name || ''); //할 일 이름 초기화 
           } else {
             console.error("할 일 정보를 불러오는 데 실패했습니다.");
           }
@@ -46,6 +49,7 @@ export default function Item() {
     fetchTodo();
   }, [id]);
 
+  //이미지 업로드 함수 
   const handleImageUpload = async (file: File) => {
     const formData = new FormData();
     formData.append('image', file);
@@ -87,7 +91,7 @@ export default function Item() {
       console.error("Error uploading image:", error);
     }
   };
-  
+  // 플러스 버튼 클릭 시 이미지 추가 입력창 열기
   const handlePlusClick = () => {
     const input = document.createElement('input');
     input.type = 'file';
@@ -100,20 +104,20 @@ export default function Item() {
     };
     input.click();
   };
-
+// 메모 편집 상태로 전환하는 함수
   const handleMemoClick = () => {
     setIsEditingMemo(true);
   };
-
+// 메모 내용 변경 처리 함수
   const handleMemoChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setMemoText(event.target.value);
   };
-
+// 메모 입력창에서 포커스를 잃었을 때 메모 저장
   const handleMemoBlur = async () => {
     setIsEditingMemo(false);
     await updateMemo();
   };
-
+// 메모 입력창에서 Enter 키 입력 시 메모 저장
   const handleMemoKeyDown = async (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (event.key === 'Enter') {
       event.preventDefault();
@@ -121,7 +125,7 @@ export default function Item() {
       await updateMemo();
     }
   };
-
+// 메모 업데이트 함수
   const updateMemo = async () => {
     if (!id) return;
 
@@ -143,20 +147,20 @@ export default function Item() {
       console.error("Error updating memo:", error);
     }
   };
-
+// 할 일 이름 편집 상태로 전환하는 함수
   const handleNameClick = () => {
     setIsEditingName(true);
   };
-
+  // 할 일 이름 변경 처리 함수
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNewTodoName(event.target.value);
   };
-
+// 할 일 이름 입력창에서 포커스를 잃었을 때 이름 저장
   const handleNameBlur = async () => {
     setIsEditingName(false);
     await updateTodoName();
   };
-
+// 할 일 이름 업데이트 함수
   const updateTodoName = async () => {
     if (!id || !newTodoName) return;
 
@@ -178,7 +182,7 @@ export default function Item() {
       console.error("Error updating todo name:", error);
     }
   };
-
+// 완료 상태 토글 함수
   const handleToggleCompletion = async () => {
     if (!id) return;
 

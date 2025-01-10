@@ -1,16 +1,34 @@
 import styled from "styled-components";
-
-import EmptyAddLarge from '/src/assets/EmptyAddLarge.png';
-import EmptyAddSmall from '/src/assets/EmptyAddSmall.png';
-import AddLarge from '/src/assets/AddLarge.png';
-import AddSmall from '/src/assets/AddSmall.png';
+import EmptyAddLarge from "/src/assets/EmptyAddLarge.png";
+import EmptyAddSmall from "/src/assets/EmptyAddSmall.png";
+import AddLarge from "/src/assets/AddLarge.png";
+import AddSmall from "/src/assets/AddSmall.png";
 
 export const Form = styled.form`
   display: flex;
   flex-direction: row;
   gap: 10px;
   margin-top: 20px;
+  width: 100%;
+  max-width: 1016px;  
+  box-sizing: border-box;
+
+  @media (max-width: 1920px) {
+    width: 1016px;
+    padding: 8px;
+  }
+
+  @media (max-width: 744px) {
+    width: 696px;
+  }
+
+  @media (max-width: 380px) {
+    width: 90%;
+    padding: 8px;
+    text-align: center;
+  }
 `;
+
 
 export const TextArea = styled.textarea`
   border: 2px solid black;
@@ -19,32 +37,35 @@ export const TextArea = styled.textarea`
   border-radius: 20px;
   font-size: 16px;
   color: black;
-  background-color: #F1F5F9;
-  width: 100%; 
-  max-width: 1016px; 
+  background-color: #f1f5f9;
+  width: 100%;
   height: 50px;
   resize: none;
+
   &::placeholder {
     font-size: 16px;
   }
+
   &:focus {
     outline: none;
-    border-color: #6500C3;
+    border-color: #6500c3;
   }
-  @media (min-width: 745px) and (max-width: 2024px) {
-    width: 1016px;
+
+  @media (max-width: 1920px) {
     font-size: 14px;
-    padding: 10px;
+    width: 100%;
+    padding: 8px;
   }
-  @media (min-width: 376px) and (max-width: 744px) {
-    width: 578px;
+
+  @media (max-width: 744px) {
+    width: 90%;
     font-size: 14px;
-    padding: 10px;
   }
-  @media (max-width: 375px) {
-    width: 280px;
-    font-size: 24px;
-    padding: 10px;
+
+  @media (max-width: 380px) {
+    width: 100%;
+    font-size: 16px;
+    padding: 8px;
     text-align: center;
   }
 `;
@@ -57,17 +78,18 @@ export const SubmitBtn = styled.button<{ isEmpty: boolean }>`
   width: 168px;
   height: 50px;
   cursor: pointer;
+
   @media (max-width: 743px) {
     background: url(${(props) =>
       props.isEmpty ? EmptyAddSmall : AddSmall}) no-repeat center;
-    width: 50px;
-    height: 50px;
+    width: 75px;
+    height: 56px;
   }
 `;
 
 export const Todo = styled.div`
-  background-color: #BEF264;
-  color: #15803D;
+  background-color: #bef264;
+  color: #15803d;
   border-radius: 20px;
   display: inline-block;
   text-align: center;
@@ -82,13 +104,14 @@ export const TodoList = styled.ul`
   flex-direction: column;
   align-items: flex-start;
   width: 100%;
+  max-width: 1920px;
 `;
 
 export const TodoItem = styled.li`
   margin-top: 20px;
-  width: 100%; 
+  width: 100%;
   max-width: 696px;
-  background-color: #F1F5F9;
+  background-color: #f1f5f9;
   border: 1px solid black;
   padding: 10px;
   margin-bottom: 10px;
@@ -113,21 +136,17 @@ export const ListsContainer = styled.div`
   width: 100%;
   justify-content: space-around;
   align-items: flex-start;
-  @media (min-width: 375px) and (max-width: 744px) {
+
+  @media (max-width: 744px) {
     flex-direction: column;
-    width: 696px;
+    width: 100%;
     align-items: center;
-  }
-  @media (max-width: 374px) {
-    flex-direction: column;
-    align-items: center;
-    width: 344px;
   }
 `;
 
 export const Done = styled.div`
-  background-color: #15803D;
-  color: #FCD34D;
+  background-color: #15803d;
+  color: #fcd34d;
   border-radius: 20px;
   display: inline-block;
   text-align: center;
@@ -140,14 +159,14 @@ export const DoneTodoList = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  width: 100%; 
+  width: 100%;
 `;
 
 export const DoneItem = styled.li`
   margin-top: 20px;
-  width: 100%; 
+  width: 100%;
   max-width: 696px;
-  background-color: #F1F5F9;
+  background-color: #f1f5f9;
   border: 1px solid black;
   padding: 10px;
   margin-bottom: 10px;
@@ -162,5 +181,15 @@ export const EmptyImage = styled.img`
   width: 240px;
   height: 240px;
   margin-top: 20px;
-  margin-left:100px;
+  margin-left: auto;
+  margin-right: auto;
+`;
+
+export const Empty = styled.div` 
+  display: flex;
+  flex-direction: column;
+  margin-left: 50px;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 `;

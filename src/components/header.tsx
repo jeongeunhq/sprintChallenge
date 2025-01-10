@@ -27,7 +27,7 @@ const Wrapper = styled.div`
 const Title = styled.span`
   display: flex;
   align-items: center;
-  max-width: 1190px;
+  max-width: 1016px;
   width: 100%;
 `;
 
