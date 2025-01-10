@@ -3,11 +3,11 @@
 
 ## 기능
 ### 1. 할 일 추가 & 완료 여부 
-
+![메인-페이지](https://github.com/user-attachments/assets/d177df73-4c96-4d9c-8ab6-1cc528fd35d1)
 -사용자가 할 일을 추가하기<br>
 -할 일 옆에 있는 버튼을 클릭하여 완료 여부 표시하기
 ### 2. 할 일 상세 페이지 & 이름, 완료 여부 변경 & 이미지, 메모 추가, 변경 & 할 일 삭제
-![KakaoTalk_20250105_164843263_01](https://github.com/user-attachments/assets/1859ad11-bf21-40f2-a747-c18fe4c0ebaf)
+![상세-페이지](https://github.com/user-attachments/assets/933d954a-e15a-4673-8f2c-413ddb6f4e23)
 -메인 페이지에서 할 일을 클릭하면 상세 페이지로 이동<br>
 -이미지, 메모 글 작성 가능 & 수정 가능 <br>
 -할 일 이름, 완료 여부 변경 가능 <br>
@@ -25,4 +25,4 @@
 </div>
 
 ## 배포 사이트
-[https://twitter-1dfcb.web.app/](https://sprint-challenge-jeongeunhas-projects.vercel.app/)
+[Todo list](https://sprint-challenge-jeongeunhas-projects.vercel.app/)
