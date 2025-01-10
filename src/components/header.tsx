@@ -1,10 +1,11 @@
+//헤더 
 import { useState, useEffect } from "react";
 import { styled } from "styled-components";
 import logo from '/src/assets/logo.png';
 import LargeLogo from '/src/assets/LargeLogo.png';
 import { Link, Outlet } from "react-router-dom";
 
-// LogoImage에 isLargeScreen prop의 타입을 명시합니다.
+// LogoImage에 isLargeScreen prop의 타입을 받아 정의
 interface LogoImageProps {
   isLargeScreen: boolean;
 }
